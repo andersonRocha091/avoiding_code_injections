@@ -7,7 +7,8 @@ async function runCommandWithExec(command) {
   const promise = new Promise((resolve, reject) => {
     exec(command, (err, res) => (err ? reject(err) : resolve(res)));
   });
-  const response = (await promise);
+  //splitting string into array and only retunning not empty lines
+  const response = (await promise).split('\n').filter(line => !!line);
   return response;
 }
 
