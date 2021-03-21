@@ -2,8 +2,8 @@ import http from "http";
 
 const port = process.env.PORT || 3000;
 
-async function runCommandWithExec(){
-
+async function runCommandWithExec(command){
+  return `Hello world`;
 }
 
 http.createServer(async (req,res)=>{
@@ -14,10 +14,12 @@ http.createServer(async (req,res)=>{
   }
   console.log('URL: ', path);
   for await(const data of req){
-    console.log('data', data.toString());
+    const command = JSON.parse(data);
+    const response = await routes[path](command);
+    console.log('response ', response);
+    res.write(response);
+    res.end();
   }
-  res.write('received!!');
-  res.end();
 }).listen(port, () => {
   console.log("Running at: ", port);
 })
